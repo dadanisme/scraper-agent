@@ -13,6 +13,7 @@ import {
   clickTool,
   getHtmlTool,
   gotoTool,
+  keyPressTool,
   screenshotTool,
   typeTool,
 } from "./tools";
@@ -43,6 +44,7 @@ export class ScraperAgent {
           getHtmlTool,
           checkCurrentUrlTool,
           screenshotTool,
+          keyPressTool,
         ],
       },
     ];

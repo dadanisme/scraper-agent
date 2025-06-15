@@ -153,6 +153,27 @@ const screenshotTool: FunctionDeclaration = {
   },
 };
 
+const keyPressTool: FunctionDeclaration = {
+  name: "keyPress",
+  description:
+    "Press a keyboard key (e.g., 'Enter', 'Tab', 'Escape', 'ArrowDown', etc.)",
+  parameters: {
+    type: Type.OBJECT,
+    properties: {
+      key: { type: Type.STRING },
+    },
+    required: ["key"],
+  },
+  response: {
+    type: Type.OBJECT,
+    properties: {
+      success: { type: Type.BOOLEAN },
+      error: { type: Type.STRING },
+    },
+    required: ["success"],
+  },
+};
+
 interface CheckCurrentUrlFunctionResponse extends Record<string, unknown> {
   success: boolean;
   url: string;
@@ -161,6 +182,11 @@ interface CheckCurrentUrlFunctionResponse extends Record<string, unknown> {
 
 interface ScreenshotFunctionResponse extends Record<string, unknown> {
   success: boolean;
+}
+
+interface KeyPressFunctionResponse extends Record<string, unknown> {
+  success: boolean;
+  error?: string;
 }
 
 async function callFunction(
@@ -244,6 +270,17 @@ async function callFunction(
     }
   };
 
+  const callKeyPress = async (
+    key: string
+  ): Promise<KeyPressFunctionResponse> => {
+    try {
+      await page.keyboard.press(key);
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: String(err) };
+    }
+  };
+
   switch (functionName) {
     case "goto":
       return await callGoto(functionParams.url);
@@ -259,6 +296,8 @@ async function callFunction(
       return await callCheckCurrentUrl();
     case "screenshot":
       return await callScreenshot(functionParams.path);
+    case "keyPress":
+      return await callKeyPress(functionParams.key);
   }
   return { success: false, message: "Function not found" };
 }
@@ -271,6 +310,7 @@ export {
   getHtmlTool,
   checkCurrentUrlTool,
   screenshotTool,
+  keyPressTool,
   callFunction,
 };
 
@@ -282,4 +322,5 @@ export type {
   CheckSelectorFunctionResponse,
   CheckCurrentUrlFunctionResponse,
   ScreenshotFunctionResponse,
+  KeyPressFunctionResponse,
 };
