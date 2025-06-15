@@ -23,6 +23,7 @@ The agent can perform these actions:
 - **Navigation**: Go to any URL
 - **Interaction**: Click buttons, links, and other elements
 - **Input**: Type text into forms and input fields
+- **Keyboard Actions**: Press keyboard keys (Enter, Tab, Escape, Arrow keys, etc.)
 - **Inspection**: Check if elements exist and are visible
 - **Content Extraction**: Get HTML content from pages
 - **Screenshots**: Capture images of web pages
